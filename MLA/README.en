@@ -2,175 +2,174 @@
 
                                           Modsecurity Log Analyzer (MLA)
                                                  Copyright (C) 2019
-                                             Fco. Javier Mu√±oz Calle
+                                             Fco. Javier MuÒoz Calle
 
                                               Version 2.0 - 25/07/2019
 
-                                                 README - Spanish
+                                                 README - English
 ------------------------------------------------------------------------------------------------------------------------------------------
 
-CHANGELOG v1.0 (Fco. Javier Mu√±oz Calle)
+CHANGELOG v1.0 (Fco. Javier MuÒoz Calle)
 
-- Primera versi√≥n funcional
+- First functional version
 
-CHANGELOG v2.0 (Fco. Javier Mu√±oz Calle)
+CHANGELOG v2.0 (Fco. Javier MuÒoz Calle)
 
-- Optimizaci√≥n del sistema de b√∫squeda mediante la creaci√≥n de "res√∫menes" (ficheros.index) de los ficheros de log.
-
-
-
-COMPILACION
-
-* PREREQUISITOS
-
-- Es necesario un sistema linux con los paquetes b√°sicos de trabajo en shell-script. En principio cualquier distribucion linux es compatible.
+- Search system optimization by creating "summaries" (files.index) of the log files.
 
 
-* INSTALACION
 
-- No requiere compilaci√≥n (POSIX Shell-script).
+COMPILATION
+
+* REQUIREMENTS
+
+- Linux system with the basic packages of POSIX shell-script. In principle, any Linux distribution is compatible.
+
+
+* INSTALATION
+
+- No compilation required (POSIX Shell-script).
 
 -----------------------------------------------
 
-FUNCIONAMIENTO
+DESCRIPTION
 
-El programa analiza las URIs indicadas en el fichero de entrada y las busca en los ficheros trazas (logs) tipo "modsec_audit.log" (ModSecurity),
-inidcando si son detectadas como ataques (alertas asociadas).
+The program analyzes the URIs indicated in the input file and searches for them in the trace files (logs) type "modsec_audit.log" (ModSecurity),
+indicating if they are detected as attacks (associated alerts).
 
-Para ello, la herramienta consta de 4 aplicaciones. Para cada una se indica:
+To do this, the tool consists of 4 applications. For each one it is indicated:
 
-a) Descripci√≥n
-b) E/S: Entrada -> Salida
-c) Sintaxis (de llamada)
+a) Description
+b) I / O: Input -> Output
+c) Syntax (call)
 
-Posteriormente se describen en mayor detalle los formatos de los distintos tipos de ficheros empleados.
+Subsequently, the formats of the different types of files used are described in greater detail.
 
 #########
 1) MLA_generator.sh
 
-a) Descripci√≥n: Recibe un fichero "X-raw.uri" (= formato ".clean")
-  y genera un fichero con el nombre "X.uri" de tipo ".raw" (URI)
+a) Description: Receives an file "X-raw.uri" (similar ".clean" format)
+†† and generates a file with the name "X.uri" of type ".raw" (URI)
 
-b) E/S: file-raw.uri -> file.uri
+b) I / O: file-raw.uri -> file.uri
 
-c) Sintaxis:
-   MLA_generador.sh   file-raw.uri   [ dir_out_uri ]
+c) Syntax:
+††† MLA_generador.sh file-raw.uri [dir_out_uri]
 
-    * "file-raw.uri": Fichero de texto "-raw.uri" con lista de URIs a analizar.
-    * "dir_out_uri": Carpeta donde guardar el fichero de salida "file.uri" (local por defecto).
+†††† * "file-raw.uri": Text file "-raw.uri" with list of URIs to analyze.
+†††† * "dir_out_uri": Folder to save the output file "file.uri" (local by default).
 #########
 
 
 #########
 2) MLA_launcher.sh
 
-a) Descripci√≥n: Recibe un fichero de texto de entrada con URIs (file.uri)  y:
-   * Genera (en la carpeta indicada como segundo argumento, local por defecto) un fichero
-     de tipo ".time" (asocia TimeStamp a URI).
-   * Lanza esas URIs contra el servidor Web (variable "SERVERURL" por omisi√≥n "http://localhost/")
-   * Extrae el log generado "modsec_audit.log" y lo copia en la carpeta del tercer argumento como "file.log"
+a) Description: Receives an input text file with URIs (file.uri) and:
+††† * Generates (in the folder indicated as the second argument, local by default) a file
+††††† of type ".time" (associates TimeStamp with URI).
+††† * Launch those URIs against the Web server (variable "SERVERURL" by default "http://localhost/")
+††† * Extract the generated log "modsec_audit.log" and copy it to the third argument folder as "file.log"
 
-b) E/S: file.uri -> file.time, file.log
+b) I/O: file.uri -> file.time, file.log
 
-c) Sintaxis:
-   MLA_launcher.sh    file.uri    dir_out_time    dir_out_log
+c) Syntax:
+††† MLA_launcher.sh file.uri dir_out_time dir_out_log
 
-   * "file.uri": Fichero de texto ".uri" con lista de URIs a analizar.
-   * "dir_out_time": directorio donde generar el fichero "file.time".
-   * "dir_out_log": directorio donde guardar el log (modsec_Audit.log) generado por Apache como "file.log"
+††† * "file.uri": Text file ".uri" with list of URIs to analyze.
+††† * "dir_out_time": directory where to generate the file "file.time".
+††† * "dir_out_log": directory where to save the log (modsec_Audit.log) generated by Apache as "file.log"
 #########
 
 
 #########
 3) MLA_analyzer.sh
 
-a) Descrici√≥n: Recibe un fichero de entrada ".log" (formato modsec_audit.log) y lo procesa generando
-   un fichero de resumen ".index" con los ataques registrados en el log.
+a) Description: Receives an ".log" input file (modsec_audit.log format) and process it by generating
+††† a summary file ".index" with the attacks registered in the log.
 
-b) E/S: file.log -> file.index
+b) I/O: file.log -> file.index
 
-c) Sintaxis:
-   MLA_analyzer.sh    file.log    [ dir_index ]
+c) Syntax:
+††† MLA_analyzer.sh file.log [index_dir]
 
-   * "file.log": Fichero de log de entrada (formato modsec_audit.log) a analizar.
-   * "dir_index": directorio donde generar el fichero resumen "file.index" (local por defecto).
+††† * "file.log": Input log file (modsec_audit.log format) to analyze.
+††† * "index_dir": directory where to generate the summary file "file.index" (local by default).
 
-   NOTA: Los ficheros de LOGs los buscan en su ubicaci√≥n est√°ndar:
-   * Carpeta: /var/log/httpd/
-   * Nombre:  modsec_audit.log
+††† NOTE: Log files are searched in their standard location:
+††† * Folder: /var/log/httpd/
+††† * Name: modsec_audit.log
 #########
 
 
 #########
 4) MLA_detector.sh
 
-a) Descripci√≥n: Recibe los ficheros "file.time" y "file.index", e identifica las URIs de ataque y limpias.
+a) Description: Receives the files "file.time" and "file.index", and identify the attack and clean URIs.
 
-b) E/S: file.time, file.index -> file.attacks, file.clean
+b) I/O: file.time, file.index -> file.attacks, file.clean
 
-c) Sintaxis:
-   MLA_detector.sh    file.time    dir_index   dir_out_attacks   dir_out_clean
+c) Syntax:
+    MLA_detector.sh file.time index_dir_out_attacks dir_out_clean
 
-   * "file.time": Fichero de texto ".time" con las URIs analizadas (y su TimeStamp).
-   * "dir_out_index": Directorio en el que buscar el fichero "file.log" con el analisis de Mod Security asociado.
-   * "dir_out_attacks": Directorio donde generar el fichero de ataques "file.attacks"
-   * "dir_out_clean":   Directorio donde generar el fichero de tr√°fico limpio "file.clean"
-   NOTA: Se asume mismo nombre que fichero de entrada "file.time" cambiando la extensi√≥n.
-#########
+    * "file.time": Text file ".time" with the URIs analyzed (and their TimeStamp).
+    * "dir_out_index": Directory in which to search for the file "file.log" with the associated Mod Security analysis.
+    * "dir_out_attacks": Directory where to generate the attack file "file.attacks"
+    * "dir_out_clean": Directory where to generate the clean traffic file "file.clean"
+    NOTE: The same name is assumed as the input file "file.time" by changing the extension.#########
 
 
 ############################
 FORMATO DE FICHEROS EMPLEADOS POR MLA (todos ficheros de texto)
 
-1) "file-raw.uri": fichero con URIs a analizar y el n√∫mero de caracteres de cada una. Formato:
+1) "file-raw.uri": file with URIs to analyze and the number of characters of each one. Format:
 
-   N¬∫_caracteres_URI URI
+	N_characters_URI URI
 
 
-2) "file.uri": fichero con solo las URIs a analizar. Formato:
+2) "file.uri": file with only the URIs to analyze. Format:
 
    URI
 
 
-3) "file.time": fichero con las URIs enviadas a Apacje Mod Security para su analisis y el TimeStamp en que se han enviado. Formato:
+3) "file.time": file with the URIs sent to Apache Modsecurity for analysis and the TimeStamp in which they were sent. Format:
 
    [TIMESTAMP]\t[URI]
 
-    NOTA: "\t" denota "tabulaci√≥n"
+    NOTE: "\t" denotes "tabulation"
 
-   Ejemplo:
+††† Example:
 
    [23/Jul/2019:14:43:49 +0200]	[/educacion/educacion/noticias/scholar.google.com]
 
 
-4) "modsec_audit.log": Fichero de log generado por Mod Security con los detalles del ataque en "Secciones".
+4) "modsec_audit.log": Log file generated by Mod Security with the details of the attack in "Sections".
 
 
-5) "file.index": Fichero resumen con los datos de inter√©s del "log", con una l√≠nea por ataque. Formato:
+5) "file.index": File summary with the data of interest of the "log", with one line per attack. Format:
 
     TimeStamp [TIMESTAMP]\tUri [URI]\tPLmin [n]\tScore [n]\tNattacks [n]\t[ID1]\t[ID2]...
 
-    Campos:
-    * PLmin (1-4, o vac√≠o=1): M√≠nimo PL (Paranoia Level de Mod Security) a partir del cual esta URI se detecta como ataque.
-    * Score (0-5): Nivel de peligrosidad del ataque seg√∫n las reglas OWASP CRS de ModSecurity.
-    * Nattacks: N¬∫ de reglas que se han activado con esta URI.
-    * "IDn": ID de las reglas que se han activado.
+    Fields:
+     * PLmin (1-4, or empty = 1): Minimum PL (Paranoia Level of Mod Security) from which this URI is detected as an attack.
+     * Score (0-5): Level of danger of the attack according to the OWASP CRS rules of ModSecurity.
+     * Nattacks: Number of rules that have been activated with this URI.
+     * "IDn": ID of the rules that have been activated.
 
-    Ejemplo:
+    Example:
 
     TimeStamp [23/Jul/2019:14:43:49 +0200]  Uri [/educacion/educacion/noticias/scholar.google.com]  PLmin [2]    Score [5]       Nattacks [3]    [920440]        [949110]        [980130]
 
 
-6) "file.attacks": Salida del an√°lisis con el tr√°fico detectado como ataque. Formato: tras una cabecera resumen
-   (N¬∫ de URIs analizadas, cuantas son de ataque y cuantas limpias), cada linea presenta el formato:
+6) "file.attacks": Result of the analysis with the traffic detected as an attack. Format: after a summary header
+††† (Number of URIs analyzed, how many are attack and how many clean), each line has the format:
 
-    Packet [N¬∫_linea]\tUri [URI]\tPLmin [n]\tScore [n]\tNattacks [n]\t[ID1]\t[ID2]...
+    Packet [Line_number]\tUri [URI]\tPLmin [n]\tScore [n]\tNattacks [n]\t[ID1]\t[ID2]...
 
-    Campos:
-    + Packet: N¬∫ de la l√≠nea del fichero "file-raw.uri" en la que se encuentra la URI a que se refiere el ataque
-              (obtenida usando el "TimeStamp" del fichero "file.time")
+    Fields:
+††††+ Packet: Line number of the file "file-raw.uri" in which the URI referred to in the attack is located
+††††††††††††††(obtained using the "TimeStamp" of the file "file.time")
 
-    Ejemplo:
+    Example:
 
     ---------------------- Statistics of URIs analyzed------------------------
     [1] input, [0] clean, [1] attacks
@@ -178,6 +177,6 @@ FORMATO DE FICHEROS EMPLEADOS POR MLA (todos ficheros de texto)
     Packet [296942] Uri [/educacion/educacion/noticias/scholar.google.com]  PLmin [2]        Score [5]  Nattacks [3]     [920440]        [949110]        [980130]
 
 
-7) "file.clean": Salida del an√°lisis con el tr√°fico limpio. Formato:
+7) "file.clean": Result of the analysis with clean traffic. Format:
 
-   N¬∫_caracteres_URI\tURI
+   N_characters_URI\tURI

@@ -1,162 +1,165 @@
 
 
-                                                      INSPECTORLOG
+                                                     INSPECTORLOG
                                                  Copyright (C) 2013-2017 
-                                          Antonio Morales Maldonado (v1.0)
-                                             Jes√∫s E. D√≠az Verdejo (v2.0)
+                                            Antonio Morales Maldonado (v1.0)
+                                             Jes˙s E. DÌaz Verdejo (v2.0)
 
-                                                      Version 3.0 - 19/12/2017
+                                                Version 3.0 - 19/12/2017
 
-                                                     README - Spanish
+                                                    README - English
 ------------------------------------------------------------------------------------------------------------------------------------------
 CHANGELOG v3.1
-- Optimizada decodificaci√≥n de URI para mejorar rendimiento ante m√∫ltiple encoding tipo %25 (e.j. %25252525)
+- Optimized URI decoding to improve performance against multiple encoding type% 25 (e.g.% 25252525)
 
 CHANGELOG v3.0
-- Modificaciones para optimizaci√≥n de velocidad (definiciones de variables)
-- Las expresiones regulares asociadas a las reglas se compilan e inicializan al cargar la regla, no al aplicarla (estructura rules modificada, liberaci√≥n de expresiones pcre al finalizar)
-- Se reconoce la clave http_method para eliminar el content asociado a un m√©todo. No se distingue entre m√©todos para aplicar las reglas (TODO) y se consideran m√©todos v√°lidos GET, POST, HEAD, PROPINFO
+- Modifications for speed optimization (definitions of variables)
+- Regular expressions associated with the rules are compiled and initialized when loading the rule, not when applying it (modified rules structure, release of pcre expressions at the end)
+- The http_method key is recognized to remove the content associated with a method. There is no distinction between methods for applying the rules (TODO) and they are considered valid methods GET, POST, HEAD, PROPINFO
 
 
 CHANGELOG v2.0.2
-- Modificado para permitir l√≠neas incompletas o mal formateadas en el log (no se procesan)
-- Corregido error en parser de log (gesti√≥n de IP)
-- Corregido error gesti√≥n de memoria con modificadores de campos pcre
-- Corregida salida filtrada en formato uri para que incluya el n√∫mero de uris en la primera linea
-- A√±adido soporte para reglas en formato suricata (uricontent)
-- A√±adida cobertura %encoding hasta %ff (NO SE INCLUYEN ALGUNOS QUE NO TIENEN REPRESENTACION ASCII)
-- A√±adida cobertura para %encoding con UTF8 para los caracteres m√°s comunes en espa√±ol. Por alguna extra√±a raz√≥n, no funciona strcasestr con los encoding de UTF y se han codificado a mano versiones may√∫sculas y min√∫sculas.
-- A√±adido soporte para las negaciones en content y pcre.
-- A√±adida opci√≥n para suprimir los mensajes de aviso de decodificaci√≥n %encoding
+- Modified to allow incomplete or badly formatted lines in the log (not processed)
+- Fixed error in parser of log (IP management)
+- Fixed memory management error with pcre field modifiers
+- Fixed filtered output in uri format to include the number of uris in the first line
+- Added support for rules in meerkat format (uricontent)
+- Added coverage% encoding up to% ff (SOME THAT DO NOT HAVE ASCII REPRESENTATION ARE NOT INCLUDED)
+- Added coverage for% encoding with UTF8 for the most common Spanish characters. For some strange reason, strcasestr does not work with UTF encoding and upper and lower case versions have been hand coded.
+- Added support for denials in content and pcre.
+- Added option to suppress decoding warning messages% encoding
 
 CHANGELOG v2.0.1
-- A√±adido soporte para m√∫ltiples pcre
+- Added support for multiple pcre
 
-CHANGELOG v2.0 (Jes√∫s D√≠az Verdejo)
+CHANGELOG v2.0 (Jes˙s DÌaz Verdejo)
 
-- Se han reorganizado los archivos para reducir su n√∫mero y los par√°metros y funciones globales.
-- Se ha a√±adido capacidad de procesar diferentes formatos de archivos de traza.
-- Se ha a√±adido la gesti√≥n de la codificaci√≥n % (urlencode / urldecode). Ahora se procesan los uri antes y despu√©s de decodificar iterativamente (para detectar m√∫ltiple encoding).
-- Se gestionan los campos "urilen" y "dsize" de las reglas.
-- Se prorporciona a la salida el archivo de traza filtrado (opcional).
-- Se gestiona el campo "nocase" a nivel de contenido individual en la regla (content y pcre).
-- Se puede activar globalmente "nocase" para ignorar may√∫sculas/min√∫sculas.
-- Se modifica la salida para que sea compatible con herramientas previas (u2uri) y proporcione el listado de alertas (sid) asociado a cada uri.
-- Se a√±ade salida extendida: informaci√≥n sobre mensaje y sid de cada alerta. 
-- No se ha modificado la funcionalidad asociada a MySQL (que no ha sido verificada en esta versi√≥n).
-- Se ha a√±adido informaci√≥n sobre eventos/excepciones durante el procesamiento de los archivos de regla para mejorar el seguimiento de las reglas procesadas.
-- Se ha a√±adido informaci√≥n sobre la correspondencia entre alerta y l√≠nea del archivo de traza para posibilitar el emparejamiento a posteriori.
-- Se ha mejorado la capacidad de detecci√≥n de reglas relativas a servidores http (n√∫meros de puerto configurables y actuaci√≥n como servidor).
-- Se ordenan las alertas por sid en la salida.
+- Files have been reorganized to reduce their number and global parameters and functions.
+- Added ability to process different formats of trace files.
+- Coding managemen t% (urlencode/urldecode) has been added. Now the uri are processed before and after decoding iteratively (to detect multiple encoding).
+- The "urilen" and "dsize" fields of the rules are managed.
+- The filtered trace file (optional) is proportional to the output.
+- The "nocase" field is managed at the level of individual content in the rule (content and pcre).
+- You can globally activate "nocase" to ignore upper/lower case.
+- The output is modified to be compatible with previous tools (u2uri) and provide the list of alerts (sid) associated with each uri.
+- Extended output is added: information about the message and sid of each alert.
+- The functionality associated with MySQL has not been modified (which has not been verified in this version).
+- Added information about events/exceptions during the processing of the rule files to improve the tracking of the processed rules.
+- Information about the correspondence between alert and line of the trace file has been added to make it possible to match it later.
+- The ability to detect rules relating to http servers (configurable port numbers and acting as a server) has been improved.
+- Alerts are sorted by sid on the output.
 
-COMPILACION
 
-- PREREQUISITOS
+COMPILATION
 
-- Es necesario un sistema linux para poder compilar y ejecutar el programa. En principio cualquier distribucion linux es compatible.
-- Se requieren las librer√≠as pcre-dev, mysqlclient y mysqlclientdev. Para m√°s informaci√≥n consulte los apartados "instalaci√≥n pcre" e "instalaci√≥n mysql" m√°s adelante.
+- REQUIREMENTS
 
-- INSTALACION
+- A linux system is required to compile and run the program. In principle, any Linux distribution is compatible.
+- The pcre-dev, mysqlclient and mysqlclientdev libraries are required. For more information, see the "pcre installation" and "mysql installation" sections below.
 
-- Para compilar el programa ejecutar "make" en el directorio src.
-- Por defecto, se instala en el directorio src.
-- En el directorio mysql se proporciona la macro para crear la base de datos necesaria (en su caso)
+- INSTALATION
+
+- To compile the program, execute "make" in the src directory.
+- By default, it is installed in the src directory.
+- In the mysql directory the macro is provided to create the necessary database (if applicable)
 
 -----------------------------------------------
 
-FUNCIONAMIENTO
+DESCRIPTION
 
-- El programa analiza archivos de trazas conteniendo URIs en diferentes formatos y aplica las reglas contenidas en los archivos del directorio de reglas, informando sobre las alertas asociadas.
+- The program analyzes trace files containing URIs in different formats and applies the rules contained in the files in the rules directory, informing about the associated alerts.
 
-FORMATO:
+FORMAT:
     inspectorlog -l logFile [-t <list|apache|wellness|uri>] [-r ruleDir] [--user=<MySQL User>] [--pass=<MySQL Pass>] [--schema=<MySQL Schema>] [-o <salida log limpio>] [-n (nocase)] [-e (extended_alerts)]
 
-    -l logFile                          Archivo de traza a procesar
-    -t <list|apache|wellness|uri>       Formato del archivo de traza. Por defecto, se usa apache. V√©anse ejemplos de formatos m√°s adelante.
-    -r ruleDir                          Directorio con las reglas de Snort. Se procesan TODOS los archivos en el directorio. Por defecto, se usa ./rules
-    --user=<MySQL User>                 Usuario para acceder a la base de datos MySQL con las alertas (en su caso)
-    --pass=<MySQL Pass>                 Password para el acceso a la base de datos
-    --schema=<MySQL Schema>             Tabla a utilizar 
-    -o <salida log limpio>              Archivo con los elementos de la traza que no han generado alertas (filtrado). El formato ser√° el mismo que el de entrada
-    -n                                  Aplicar las reglas ignorando may√∫sculas y min√∫sculas en todos los casos. En caso contrario, se usar√° la regla de acuerdo a la etiqueta "nocase" existente o al switch de la expresi√≥n regular correspondiente.
-    -e                                  Activar informaci√≥n extendida de las alertas (se incluye mensaje de alerta y sid). En caso contrario s√≥lo se indica el sid
-    -w                                  Generar avisos cuando no se pueden decodificar caracteres %encoded
+    -l logFile					Trace file to process
+††††-t <list|apache|wellness|uri>	Trace file format. By default, apache is used. See examples of formats below.
+††††-r ruleDir					Directory with Snort rules. ALL files in the directory are processed. By default, ./rules is used
+††††--user=<MySQL User>			User to access the MySQL database with alerts (if applicable)
+††††--pass=<MySQL Pass>			Password for access to the database
+††††--schema=<MySQL Schema>			Table to use
+††††-o <clean log output>			File with the trace elements that have not generated alerts (filtering). The format will be the same as the input
+††††-n						Apply the rules ignoring upper and lower case in all cases. Otherwise, the rule will be used according to the existing "nocase" tag or the corresponding regular expression switch.
+††††-e						Activate extended alert information (alert message and sid included). Otherwise only the sid is indicated
+††††-w						Generate warnings when %encoded characters cannot be decoded
     
-FORMATOS DE TRAZAS:
-    Los formatos disponibles por el momento para el archivo de traza son:
-    - list                              Lista de URIs sin m√©todo ni campos adicionales
-    - apache                            Formato est√°ndar de apache
-    - wellness                          Formato proporcionado para las trazas de wellnes
-    - uri                               Formato usado por los archivos de uri de la herramienta ssmv4. La primera l√≠nea contiene el n√∫mero de uris. Cada l√≠nea incluye la longitud y el uri
-   
-Ejemplos:
-   /* Mapeos de campos (dependientes del tipo) */
-    /* TIPO WELLNESS (10 campos)
+FORMATS OF TRACES:
+†††† The formats currently available for the trace file are:
+†††† - list List of URIs without method or additional fields
+†††† - apache Standard format of apache
+†††† - wellness Format provided for wellnes traces
+†††† - uri Format used by the uri files of the ssmv4 tool. The first line contains the number of uris. Each line includes the length and uri
+†††
+Examples:
+††† / * Field mapping (depending on type) * /
+††† / * WELLNESS TYPE (10 fields)
     2017-06-22T06:25:15.356441+02:00 A-SQU-BAL-HAP03 haproxy[5518]: 10.128.2.64:46469 {www.wtelecom.es} "GET / HTTP/1.1" main_http_frontend WT_www_be/A-WTE-INF-WEB03
     TIMESTAMP NODE PLACE IP:PORT {server} "METHOD URI VER" CODE1 CODE2
+    */
     
-    TIPO APACHE (12 campos)
+    / * APACHE TYPE (12 fields)
     172.16.16.210 - - [02/May/2017:12:21:07 +0200]  "GET http://127.0.0.1/finger HTTP/1.1" 404 289 "-" "Wget/1.17.1 (linux-gnu)"  
     37.152.139.155 - - [07/Nov/2013:17:00:31 -0800] "GET /2003/padron.html HTTP/1.1" 200 11800 "-" "Java/1.7.0_15" "ajedreznd.com"
     IP USERIDENTIFIER USERID [TIMESTAMP DIF] "METHOD URI PROTOCOL" CODE1 CODE2 "-" "REFERER"
 
     TIPO LIST (URI en el primer campo)
     TIPO URI (URI en el segundo campo (y 1a linea con numero de uris)
-    
     */   
-    
-ARCHIVOS DE REGLAS
-    Se procesan las reglas en el formato est√°ndar de Snort (VRT).
-    S√≥lo se consideran los siguientes campos para la aplicaci√≥n de la regla:
-    - content           Se incluyen todos los campos content encontrados hasta un m√°ximo de MAX_PATTERNS
-    - pcre              S√≥lo se considera un campo pcre. Esto es una limitaci√≥n de la versi√≥n actual de la herramienta.
-    - dsize             Se consideran los tama√±os de los payloads y su sentido (mayor, menor, igual), aunque se aplican al campo URI
-    - urilen            Igual que dsize. De hecho, se procesan como un solo campo
-    - nocase            Se aplica al campo inmediatamente anterior
-    
-    Los campos que se almacenan son:
-    - msg               Descripci√≥n de la regla
-    - reference         Referencias de la regla (puede haber varias con un l√≠mite superior)
-    - classtype         Campo classtype de la regla
-    - sid               SID de la regla
-    
-    Los restantes campos son ignorados.
-    
-    ¬°¬°IMPORTANTE!! Todos los archivos que se encuentren en el directorio "rules" o en alguno de sus subdirectorios deben pertenecer a archivos de reglas.
-    En caso de descomprimir los archivos de reglas de Snort directamente en dicho directorio o en alguno de sus directorios, es importante que se borren  aquellos archivos que no correspondan a reglas de Snort (como archivos de "disclaimer" o de licencias). En caso contrario el comportamiento puede ser inesperado.
-    
-    Limitaciones en relaci√≥n a las reglas:
-    --------------------------------------
-    
-    Obviamente, no se pueden considerar los criterios relacionados con los flujos (flowbits, flow), por lo que se pueden producir muchos falsos positivos, especialmente en el caso de reglas muy gen√©ricas a nivel de content o pcre. Esta limitaci√≥n es insalvable.
-    
-    Los campos que determinan las posiciones (depth, distance, etc.) no son considerados en la versi√≥n actual de la herramienta. Esto tambi√©n puede dar lugar a falsos positivos. Esta limitaci√≥n podr√≠a ser paliada en versiones sucesivas de la herramienta mediante el uso de expresiones regulares para concatenar las expresiones (distance) o aplicar la regla a partir de posiciones del uri (depth).
-    
-    (SOLUCIONADO v2.0.1) S√≥lo se considera un campo pcre en esta versi√≥n. Existen algunas reglas VRT con m√°s de un campo pcre. Esta limitaci√≥n podr√≠a ser f√°cilmente soslayada aumentando el n√∫mero de campos (TODO).
-    
-    (SOLUCIONADO v2.0.2) No se gestiona adecuadamente la negaci√≥n en los campos a buscar en las reglas. Se extraen e identifican los campos negados, pero no se aplica correctamente. Esto debe ser corregido (TODO / BUG).
-    
-    Se han identificado casos de aplicaci√≥n incorrecta de reglas con expresiones pcre que impliquen repetici√≥n. No se ha encontrado soluci√≥n a√∫n (BUG).
-    
-    No se comprueba el m√©todo utilizado. Se generan falsos positivos por no corresponder el m√©todo. Se podr√≠a gestionar en algunos formatos de trazas, no en otros (TODO).
-    
-    Se han identificado problemas en reglas conteniendo %00 (BUG).
 
-FORMATO DE SALIDA:
+RULES FILES
+††††The rules are processed in the standard Snort format (VRT).
+††††Only the following fields are considered for the application of the rule:
+††††- content		All content fields found up to a maximum of MAX_PATTERNS are included
+††††- pcre			Only a pcre field is considered. This is a limitation of the current version of the tool.
+††††- dsize		Payload sizes and their meaning (major, minor, equal) are considered, although they are applied to the URI field
+††††- urilen		Same as dsize. In fact, they are processed as a single field
+††††- nocase		Applies to the field immediately before
+††††
+††††The fields that are stored are:
+††††- msg			Rule description
+††††- reference		References of the rule (there may be several with an upper limit)
+††††- classtype		Rule's classtype field
+††††- sid			SID of the rule
+††††
+††††The remaining fields are ignored.
+††††
+††††IMPORTANT!! All files that are in the "rules" directory or in any of its subdirectories must belong to rules files.
+††††In case of decompressing the Snort rule files directly in that directory or in any of its directories, it is important that those files that do not correspond to Snort rules (such as "disclaimer" or license files) are deleted. Otherwise the behavior may be unexpected.    
 
-    La salida se realiza por pantalla e incluye dos secciones:
-    - Informaci√≥n inicial sobre las reglas cargadas y su procesamiento. 
-    - Resultado del an√°lisis de las trazas: 
     
-        Packet [<numero_linea_en_log>]\tUri [<uri analizado>]\tNattacks [<num_alertas_generadas>]\t[<info_alerta_1>]\t ... \t [<info_alerta_n>]
+Limitations in relation to the rules:
+††††--------------------------------------
+††††
+††††Obviously, the criteria related to the flows (flowbits, flow) cannot be considered, so many false positives can be produced, especially in the case of very generic rules at the content or pcre level. This limitation is insurmountable.
+††††
+††††The fields that determine the positions (depth, distance, etc.) are not considered in the current version of the tool. This can also lead to false positives. This limitation could be alleviated in successive versions of the tool by using regular expressions to concatenate the expressions (distance) or apply the rule from uri (depth) positions.
+††††
+††††(SOLVED v2.0.1) Only a parent field is considered in this version. There are some VRT rules with more than one pcre field. This limitation could easily be avoided by increasing the number of fields (EVERYTHING).
+††††
+††††(SOLVED v2.0.2) Denial is not properly managed in the fields to be searched in the rules. Denied fields are extracted and identified, but not applied correctly. This must be corrected (TODO / BUG).
+††††
+††††Cases of incorrect application of rules with pcre expressions that involve repetition have been identified. No solution found yet (BUG).
+††††
+††††The method used is not checked. False positives are generated because the method does not correspond. It could be managed in some trace formats, not in others (ALL).
+††††
+††††Problems in rules containing %00 (BUG) have been identified.
+
+
+OUTPUT FORMAT:
+
+†††† The output is done by screen and includes two sections:
+†††† - Initial information on the loaded rules and their processing.
+†††† - Trace analysis result:
+	   Packet [<number_line_in_log>]\tUri [<uri_analyzed>]\tNattacks [<num_generated_alerts>]\t [<alert_info_1>]\t ... \t [<alert_info_n>]    
     
-        info_alerta_n puede ser √∫nicamente el sid (salida normal) o la descripci√≥n de la alerta y el sid separados por '-' (salida extendida)
-    Ejemplo:
+	alert_info_n can only be the sid (normal output) or the description of the alert and the sid separated by '-' (extended output)
+
+	Example:
     
             ------------------------- Initializing Rules ---------------------
             Rules directory : "/media/sf_work/siva/tools/InspectorLogv2.0/rules-kk"
                 Opening ../rules-kk/http_kk.rules... done
-                Reglas: le√≠das [1], err√≥neas [0], URI [1]
+                Reglas: leÌdas [1], errÛneas [0], URI [1]
             --------------------------- Statistics ------------------------------
             Read [1] rules, [1] http-related, [0] with errors
             --------------------------- Analysis results -----------------------------
@@ -168,42 +171,41 @@ FORMATO DE SALIDA:
 
             -------------------------------------------------------------------------------
     
-PRUEBAS y EJEMPLOS:
+TESTS AND EXAMPLES:
 
-- En el archivo "access.log" ubicado en el directorio 'pruebas', se proporciona un ejemplo de log de gran tama√±o(+15000entradas) para probar el
-  funcionamiento del programa. Dicho archivo contiene diversas amenazas que implican diversas reglas de diversos archivos de reglas distintos,
-  demostrando la detecci√≥n tanto de patrones como de expresiones regulares.
+- In the "access.log" file located in the 'tests' directory, an example of a large log (+ 15000 entries) is provided to test the
+††program operation This file contains several threats that involve different rules from different files of different rules,
+††demonstrating the detection of both patterns and regular expressions.
 
-- Para probar dicho archivo, ejecutar la siguiente orden desde el directorio principal:
-	./inspectorlog -l Pruebas/access.log
+- To test this file, execute the following command from the main directory:
+	./inspectorlog -l Tests / access.log
 
-- Por defecto los archivos de reglas deben de ir en la carpeta "rules", pero se puede cambiar pasandole la opci√≥n "--rules [dir]" como argumentos 
-  al programa. Se incluyen 2 directorios de reglas 'rules' y 'rules2', que contienen las reglas VRT de Snort y un conjunto de reglas personalizado respectivamente.
+- By default the rules files must be in the "rules" folder, but can be changed by passing the option "--rules [dir]" as arguments
+††to the program 2 rule directories 'rules' and 'rules2' are included, which contain the Snort VRT rules and a custom rule set respectively.
 
-- Tambi√©n se incluyen otros archivos de pruebas utilizados para las distintas mediciones realizadas.
+- Other test files used for the different measurements made are also included.
+††
+- In order to obtain a detailed analysis of the output information through Snort Report, it is necessary to have a MySQL server installed in
+††local, as well as with a web server capable of interpreting PHP. You can get Snort Report from the creators website:
+   http://www.symmetrixtech.com/download.html
 
-  
-- Para poder obtener un an√°lisis detallado de la informaci√≥n de salida mediante Snort Report, es necesario contar con un servidor MySQL instalado en 
-  local, as√≠ como con un servidor web con capacidad para interpretar PHP. Puede obtener Snort Report desde la p√°gina web de los creadores:
-													http://www.symmetrixtech.com/download.html
-
-- Para m√°s informaci√≥n acerca de los par√°metros de entrada utilizar el argumento "--help".
+- For more information about the input parameters use the "--help" argument.
 
 -----------------------------------------------------------------------------
 
-INSTALACION PCRE
+PCRE INSTALLATION
 
-- En sistemas debian y derivados basta con ejecutar la siguiente orden desde consola (se necesitan permisos de administrador):
+- On debian and derivative systems, simply execute the following command from the console (administrator permissions are required):
 	[sudo] apt-get update
 	[sudo] apt-get install libpcre3 libpcre3-dev
 
-- Para otras distribuciones acuda a la p√°gina web de dicha libreria (http://www.pcre.org/) y siga los pasos de instalaci√≥n.
+- For other distributions go to the website of the library (http://www.pcre.org/) and follow the installation steps.
 
 ------------------------------------------------------------------------------
-INSTALACION MYSQL
+MYSQL INSTALLATION
 
-- En sistemas debian y derivados ejecutar las siguientes ordenes desde consola (se necesitan permisos de administrador):
+- On debian and derivative systems, execute the following commands from the console (administrator permissions are required):
 	[sudo] apt-get update
 	[sudo] apt-get install libmysqlclient libmysqlclient-dev
 
-- Para otras distribuciones descargar y compilar el conector para C desde la direcci√≥n: http://dev.mysql.com/downloads/connector/c/
+- For other distributions download and compile the connector for C from the address: http://dev.mysql.com/downloads/connector/c/
