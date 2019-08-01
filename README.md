@@ -1,2 +1,2 @@
 # HTTP-URI-Security
-Análisis de ataques en URIs de mensajes HTTP GET
+URI attack analysis of HTTP GET messages
